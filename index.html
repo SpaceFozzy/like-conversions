@@ -1,73 +1,74 @@
 <html>
-  <em>Psst, open your dev tools ;)</em>
-  <script>
-   
-    const posts = [
-      { id: 1, likes: [] },
-      { id: 2, likes: ['Peter'] },
-      { id: 3, likes: ['John', 'Mark'] },
-      { id: 4, likes: ['Paul', 'Lilly', 'Alex'] },
-      { id: 5, likes: ['Sarah', 'Michelle', 'Alex', 'John'] }
-    ];
+<em>Psst, open your devloper console ;&#41;</em>
+<script>
+  const posts = [
+    { id: 1, likes: [] },
+    { id: 2, likes: ['Peter'] },
+    { id: 3, likes: ['John', 'Mark'] },
+    { id: 4, likes: ['Paul', 'Lilly', 'Alex'] },
+    { id: 5, likes: ['Sarah', 'Michelle', 'Alex', 'John'] }
+  ];
 
-    const expectedOutput = [
-      { id: 1, text: 'No one likes this' },
-      { id: 2, text: 'Peter likes this' },
-      { id: 3, text: 'John and Mark like this' },
-      { id: 4, text: 'Paul, Lilly and Alex like this' },
-      { id: 5, text: 'Sarah, Michelle and 2 others like this' }
-    ];
+  const expectedOutput = [
+    { id: 1, text: 'No one likes this' },
+    { id: 2, text: 'Peter likes this' },
+    { id: 3, text: 'John and Mark like this' },
+    { id: 4, text: 'Paul, Lilly and Alex like this' },
+    { id: 5, text: 'Sarah, Michelle and 2 others like this' }
+  ];
 
-    /*
-    Good luck, and have fun!
-    */
+  /*
+  Good luck, and have fun!
+  */
 
 
-    /*
-    Thanks! Let's do it! 
-    
-    I'll use the Javascript array map function to create a new array of 
-    formatted objects from the posts input.
-    */
-    const myOutput = posts.map((post) => {
-      return { id: post.id, text: likesToText(post.likes) }
+  /*
+  Thanks! Let's do it! 
+  
+  I'll use the Javascript array map function to create a new array of 
+  formatted objects from the posts input.
+  */
+  const myOutput = posts.map(post => (
+    {
+      id: post.id,
+      text: likesToText(post.likes)
+    }
+  ));
+  console.log("My output: ", myOutput);
+  console.log("My output as JSON: ", JSON.stringify(myOutput));
+
+  /*
+  My simple function to construct the text from an array of names looks
+  like this.
+  */
+  function likesToText(names) {
+    switch (names.length) {
+      case 0: return `No one likes this`;
+      case 1: return `${names[0]} likes this`;
+      case 2: return `${names[0]} and ${names[1]} like this`;
+      case 3: return `${names[0]}, ${names[1]} and ${names[2]} like this`;
+      default:
+        const remainingNameCount = names.length - 2;
+        return `${names[0]}, ${names[1]} and ${remainingNameCount} others like this`;
+    }
+  }
+
+
+  /*
+  That was fun! But can we prove that it worked perfectly? Let's make sure there
+  aren't any typos or extra whitespace with a simple test.
+  */
+  function testOutput(output, expectedOutput) {
+    const doOutputsMatch = output.every((post, index) => {
+      const expectedPost = expectedOutput[index];
+      const isTextCorrect = (post.text === expectedPost.text)
+      return isTextCorrect;
     });
-    console.log("My output: ", myOutput);
-    console.log("My output as JSON: ", JSON.stringify(myOutput));
+    return doOutputsMatch;
+  }
 
-    /*
-    My simple function to construct the text from an array of names looks
-    like this.
-    */
-    function likesToText(names) {
-      switch (names.length) {
-        case 0: return `No one likes this`;
-        case 1: return `${names[0]} likes this`;
-        case 2: return `${names[0]} and ${names[1]} like this`;
-        case 3: return `${names[0]}, ${names[1]} and ${names[2]} like this`;
-        default:
-          const remainingNameCount = names.length - 2;
-          return `${names[0]}, ${names[1]} and ${remainingNameCount} others like this`;
-      }
-    }
+  const success = testOutput(myOutput, expectedOutput);
+  console.log("Did the test pass? ", success);
+</script>
 
-
-    /*
-    That was fun! But can we prove that it worked perfectly? Let's make sure there
-    aren't any typos or extra whitespace with a simple test.
-    */
-    function testOutput(output, expectedOutput) {
-      let doOutputsMatch = output.every((post, index) => {
-        let expectedPost = expectedOutput[index];
-        let isTextCorrect = (post.text === expectedPost.text)
-        return isTextCorrect;
-      });
-      return doOutputsMatch;
-    }
-
-    const success = testOutput(myOutput, expectedOutput);
-    console.log("Did the test pass? ", success);
-
-  </script>
-
-</html>  
+</html>
